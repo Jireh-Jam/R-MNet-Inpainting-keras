@@ -12,5 +12,5 @@ https://arxiv.org/pdf/2008.04621.pdf
 
 ## Requirements
 [Download Places2 Dataset]( http://data.csail.mit.edu/places/places365/places365standard_easyformat.tar)
-
+##
 [Download CelebA-HQ Dataset] https://github.com/willylulu/celeba-hq-modified
