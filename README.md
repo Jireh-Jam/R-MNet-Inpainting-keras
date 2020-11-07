@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/Python-3.6-blue.svg) ![](https://img.shields.io/badge/Keras-2.2.4-blue.svg) ![](https://img.shields.io/badge/TensorFlow-1.12.0-blue.svg) ![](https://img.shields.io/badge/License-MIT-blue.svg)
+![](https://img.shields.io/badge/Python-3.6-orange.svg) ![](https://img.shields.io/badge/Keras-2.3.1-orange.svg) ![](https://img.shields.io/badge/TensorFlow-1.13.1-orange.svg) ![](https://img.shields.io/badge/License-MIT-blue.svg)
 # R-MNET-A-Perceptual-Adversarial-Network-for-Image-Inpainting
 R-MNET: A Perceptual Adversarial Network for Image Inpainting. 
 Jireh Jam, Connah Kendrick, Vincent Drouard, Kevin Walker, Gee-Sern Hsu, Moi Hoon Yap
