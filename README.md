@@ -12,3 +12,10 @@ https://arxiv.org/pdf/2008.04621.pdf
 
 ## Requirements
 [Download Places2 Dataset]( http://data.csail.mit.edu/places/places365/places365standard_easyformat.tar) and [CelebA-HQ Dataset](https://github.com/willylulu/celeba-hq-modified)
+- Python 3.6
+- Tensorflow 1.13.1
+- keras 2.3.1
+- opencv
+- Numpy
+
+
