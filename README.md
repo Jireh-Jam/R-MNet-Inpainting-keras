@@ -11,5 +11,6 @@ https://arxiv.org/pdf/2008.04621.pdf
 <img src="https://user-images.githubusercontent.com/16281283/98450574-a29b4480-2135-11eb-871f-fe14c823e275.png" width="1000">
 
 ## Requirements
-Download Places2 Dataset http://data.csail.mit.edu/places/places365/places365standard_easyformat.tar
-Download CelebA-HQ Dataset https://github.com/willylulu/celeba-hq-modified
+[Download Places2 Dataset]( http://data.csail.mit.edu/places/places365/places365standard_easyformat.tar)
+
+[Download CelebA-HQ Dataset] https://github.com/willylulu/celeba-hq-modified
