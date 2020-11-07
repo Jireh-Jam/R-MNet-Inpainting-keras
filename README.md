@@ -22,10 +22,10 @@ https://arxiv.org/pdf/2008.04621.pdf
 ## Citing this script
 If you use this script, please consider citing [R-MNet](https://arxiv.org/abs/2008.04621):
 
-[Reference](@article{jam2020r,
+'''[Reference](@article{jam2020r,
   title={R-MNet: A Perceptual Adversarial Network for Image Inpainting},
   author={Jam, Jireh and Kendrick, Connah and Drouard, Vincent and Walker, Kevin and Hsu, Gee-Sern and Yap, Moi Hoon},
   journal={arXiv preprint arXiv:2008.04621},
   year={2020}
-})
+})'''
 
