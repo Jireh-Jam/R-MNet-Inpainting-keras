@@ -17,7 +17,10 @@ https://arxiv.org/pdf/2008.04621.pdf
 - keras 2.3.1
 - opencv
 - Numpy
-### Reference
+
+### Training and Testing scripts are coming soon.
+## Citing this script
+If you use this script, please consider citing [R-MNet](https://arxiv.org/abs/2008.04621):
 
 [Reference](@article{jam2020r,
   title={R-MNet: A Perceptual Adversarial Network for Image Inpainting},
