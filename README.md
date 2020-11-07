@@ -17,5 +17,12 @@ https://arxiv.org/pdf/2008.04621.pdf
 - keras 2.3.1
 - opencv
 - Numpy
+### Reference
 
+@article{jam2020r,
+  title={R-MNet: A Perceptual Adversarial Network for Image Inpainting},
+  author={Jam, Jireh and Kendrick, Connah and Drouard, Vincent and Walker, Kevin and Hsu, Gee-Sern and Yap, Moi Hoon},
+  journal={arXiv preprint arXiv:2008.04621},
+  year={2020}
+}
 
