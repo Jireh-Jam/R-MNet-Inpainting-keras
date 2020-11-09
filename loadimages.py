@@ -30,6 +30,7 @@ def GenerateTrainingBatch(lastImageOn,imagesInBatch):
         print("\rLoading Image " +(datetime.datetime.now().strftime("%c")+" "+str(i)), end=" ")
         img = cv2.imread(os.path.join(imgsInDir,imgsInPath[lastImageOn])) 
         mask = cv2.imread(os.path.join(maskInDir,maskInPath[masks_idx[idx]]),0)
+        #mask = 1-mask # Uncomment if using Quick-draw mask dataset
         mask = np.reshape(mask,(img_width,img_height,1))
         mask = np.expand_dims(mask, axis=-1)    
         masks[i] = mask
