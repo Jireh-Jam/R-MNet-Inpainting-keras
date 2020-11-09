@@ -19,7 +19,7 @@ imgsInPath = os.listdir(imgsInDir)
 maskInPath = os.listdir(maskInDir)
 img_width = 256
 img_height = 256
-def GenerateTrainingBatcht(lastImageOn,imagesInBatch):
+def GenerateTrainingBatch(lastImageOn,imagesInBatch):
     if(lastImageOn + imagesInBatch) >= len(imgsInPath):
         imagesInBatch = len(imgsInPath)- lastImageOn
     imgs = np.zeros((imagesInBatch,img_width,img_height,3))
