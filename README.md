@@ -20,7 +20,7 @@ https://arxiv.org/pdf/2008.04621.pdf
 - Numpy
 
 ### Training and Testing scripts are coming soon.
-## Code References
+## Code Reference
 1. Wasserstain GAN was implemented based on: [Wasserstein GAN Keras](https://github.com/eriklindernoren/Keras-GAN/blob/master/wgan/wgan.py)
 ## Citing this script
 If you use this script, please consider citing [R-MNet](https://arxiv.org/abs/2008.04621):
