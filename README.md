@@ -23,7 +23,8 @@ The NVIDIA's mask dataset is available [here](https://nv-adlr.github.io/publicat
 - opencv
 - Numpy
 
-### Training and Testing scripts are coming soon.
+### Training and Testing scripts.
+Use the run.py file to train the model and test.py to test the model. We recommend training for 100 epochs as a benchmark based on the state-of-the-art used to compare with out model.
 ## Code Reference
 1. Wasserstain GAN was implemented based on: [Wasserstein GAN Keras](https://github.com/eriklindernoren/Keras-GAN/blob/master/wgan/wgan.py)
 2. Generative Multi-column Convolutional Neural Networks inpainting model in Keras : [Image Inpainting via Generative Multi-column Convolutional Neural Networks](https://github.com/tlatkowski/inpainting-gmcnn-keras/)
