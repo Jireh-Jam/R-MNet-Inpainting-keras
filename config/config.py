@@ -2,7 +2,7 @@
 """
 Created on Mon Jan 25 14:24:02 2021
 
-@author: 18060721
+@author: Jireh Jam
 """
 
 from configparser import ConfigParser
