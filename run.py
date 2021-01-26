@@ -2,7 +2,7 @@
 """
 Created on Sun Jan 24 19:57:01 2021
 
-@author: 18060721
+@author: Jireh Jam
 """
 
 from rmnet import RMNETWGAN
