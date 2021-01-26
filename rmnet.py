@@ -327,10 +327,7 @@ class RMNETWGAN():
     # =================================================================================== #   
     
               gen_imgs=self.generator.predict([real_img,mask], self.batch_size) 
-              gen_imgs = gen_imgs[:,:,:,0:3]       
-              cv2.imshow("images",(gen_imgs[0][:, :, ::-1]* 127.5 + 127.5).astype("uint8"))
-              #cv2.imshow("Gen_images",((gen_imgs[0]+ 1) * 127.5).astype(np.uint8))
-              cv2.waitKey(1 )  
+              gen_imgs = gen_imgs[:,:,:,0:3]        
               
     # =================================================================================== #
     #                             8.2. Train the discriminator                            #
