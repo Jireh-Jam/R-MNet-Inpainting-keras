@@ -32,6 +32,15 @@ Use the run.py file to train the model and test.py to test the model. We recomme
 ## Citing this script
 If you use this script, please consider citing [R-MNet](https://arxiv.org/abs/2008.04621):
 ```
+@inproceedings{jam2021r,
+  title={R-mnet: A perceptual adversarial network for image inpainting},
+  author={Jam, Jireh and Kendrick, Connah and Drouard, Vincent and Walker, Kevin and Hsu, Gee-Sern and Yap, Moi Hoon},
+  booktitle={Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision},
+  pages={2714--2723},
+  year={2021}
+}
+```
+```
 @article{jam2020r,
   title={R-MNet: A Perceptual Adversarial Network for Image Inpainting},
   author={Jam, Jireh and Kendrick, Connah and Drouard, Vincent and Walker, Kevin and Hsu, Gee-Sern and Yap, Moi Hoon},
