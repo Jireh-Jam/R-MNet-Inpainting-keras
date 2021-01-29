@@ -24,11 +24,11 @@ After downloading the datasets, you should put create these folders into `/image
 -- images
 ---- train
 ------ train_images
------- celebA_HQ_test
+---- celebA_HQ_test
 -- masks
 ---- train
 ------ train_masks
------- test_masks
+---- test_masks
 ```
 /images/train/train_images and /masks/train/train_masks and place the images and masks in the train_images and train_masks respectively.
 Make sure the directory path is 
