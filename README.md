@@ -21,10 +21,10 @@ The NVIDIA's mask dataset is available [here](https://nv-adlr.github.io/publicat
 Create these folders (images and masks) in the format 
 /images/train/train_images and /masks/train/train_masks and place the images and masks in the train_images and train_masks respectively.
 Make sure the directory path is 
-self.train_mask_dir='./masks/train/' 
-self.train_img_dir = './images/train/'
-test_img_dir ='./images/celebA_HQ_test/'
-test_mask_dir ='./masks/test_masks/'
+-self.train_mask_dir='./masks/train/' 
+-self.train_img_dir = './images/train/'
+-test_img_dir ='./images/celebA_HQ_test/'
+-test_mask_dir ='./masks/test_masks/'
 ### Python requirements
 - Python 3.6
 - Tensorflow 1.13.1
