@@ -18,7 +18,18 @@ https://arxiv.org/pdf/2008.04621.pdf
 The training mask dataset used for training our model: [QD-IMD: Quick Draw Irregular Mask Dataset](https://github.com/karfly/qd-imd)   
 The NVIDIA's mask dataset is available [here](https://nv-adlr.github.io/publication/partialconv-inpainting)
 ### Folder structure
-Create these folders (images and masks) in the format 
+After downloading the datasets, you should put create these folders into `/images/train/train_images` and `/masks/train/train_masks`. Place the images and masks in the train_images and train_masks respectively and it should be like
+
+```
+-- images
+---- train
+------ train_images
+------ celebA_HQ_test
+-- masks
+---- train
+------ train_masks
+------ test_masks
+```
 /images/train/train_images and /masks/train/train_masks and place the images and masks in the train_images and train_masks respectively.
 Make sure the directory path is 
 
