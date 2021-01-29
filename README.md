@@ -42,7 +42,7 @@ Use the run.py file to train the model and test.py to test the model. We recomme
 2. Generative Multi-column Convolutional Neural Networks inpainting model in Keras : [Image Inpainting via Generative Multi-column Convolutional Neural Networks](https://github.com/tlatkowski/inpainting-gmcnn-keras/)
 3. Nvidia Mask Dataset, based on the paper: [Image Inpainting for Irregular Holes Using Partial Convolutions](https://eccv2018.org/openaccess/content_ECCV_2018/papers/Guilin_Liu_Image_Inpainting_for_ECCV_2018_paper.pdf)
 ## Citing this script
-If you use this script, please consider citing [R-MNet](https://arxiv.org/abs/2008.04621):
+If you use this script, please consider citing [R-MNet](https://openaccess.thecvf.com/content/WACV2021/papers/Jam_R-MNet_A_Perceptual_Adversarial_Network_for_Image_Inpainting_WACV_2021_paper.pdf):
 ```
 @inproceedings{jam2021r,
   title={R-mnet: A perceptual adversarial network for image inpainting},
