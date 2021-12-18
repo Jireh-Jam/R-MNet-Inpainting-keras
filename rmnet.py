@@ -111,7 +111,7 @@ class RMNETWGAN():
             
         except:        
             self.combined = Model([image,mask], [gen_img,valid])
-            self.combined.compile(loss=[self.generator_loss(mask), self.wasserstein_loss],loss_weights=[1,0.001], optimizer=self.g_optimizer)
+            self.combined.compile(loss=[self.generator_loss, self.wasserstein_loss],loss_weights=[1,0.001], optimizer=self.g_optimizer)
 
         
     # =================================================================================== #
@@ -119,23 +119,23 @@ class RMNETWGAN():
     # =================================================================================== # 
         
     def wasserstein_loss(self, y_true, y_pred):
-        return K.mean(y_true * y_pred)   
-       
-    def generator_loss(self, mask): 
-        def loss(y_true, y_pred):
-            input_img = Lambda(lambda x : x[:,:,:,0:3])(y_true)
-            output_img = Lambda(lambda x : x[:,:,:,0:3])(y_pred)
-            reversed_mask = Lambda(self.reverse_mask,output_shape=(self.img_shape_mask))(mask)
-            vgg = VGG19(include_top=False, weights='imagenet', input_shape=self.img_shape)
-            loss_model = Model(inputs=vgg.input, outputs=vgg.get_layer('block3_conv3').output)
-            loss_model.trainable = False
-            perceptual_loss = (K.mean(K.square(loss_model(input_img) - loss_model(output_img))))
-            masking = Multiply()([reversed_mask,input_img])
-            predicting = Multiply()([reversed_mask, output_img])
-            reversed_mask_loss = (K.mean(K.square(loss_model(masking) - loss_model(predicting))))
-            new_loss = 0.4*perceptual_loss + 0.6*reversed_mask_loss
-            return new_loss
-        return loss
+        return K.mean(y_true * y_pred)  
+      
+    def generator_loss(self, y_true,y_pred):
+
+        mask = K.expand_dims(Lambda(lambda x : x[:,:,:,3])(y_pred),axis=-1) 
+        input_img = Lambda(lambda x : x[:,:,:,0:3])(y_true)
+        output_img = Lambda(lambda x : x[:,:,:,0:3])(y_pred)
+        reversed_mask = Lambda(self.ReverseMask,output_shape=(self.img_shape_mask))(mask)
+        vgg = VGG19(include_top=False, weights='imagenet', input_shape=self.img_shape)
+        loss_model = Model(inputs=vgg.input, outputs=vgg.get_layer('block3_conv3').output)
+        loss_model.trainable = False
+        p_loss = K.mean(K.square(loss_model(output_img) - loss_model(input_img)))
+        masking = Multiply()([reversed_mask,input_img])
+        predicting = Multiply()([reversed_img, output_img])
+        reversed_mask_loss = (K.mean(K.square(loss_model(predicting) - loss_model(masking))))
+        new_loss = 0.6*(p_loss+com_loss) + 0.4*reversed_mask_loss
+        return new_loss       
 
     # =================================================================================== #
     #               5. Define the reverese mask                                           #
