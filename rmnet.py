@@ -122,20 +122,20 @@ class RMNETWGAN():
         return K.mean(y_true * y_pred)  
       
     def generator_loss(self, y_true,y_pred):
-
-        mask = K.expand_dims(Lambda(lambda x : x[:,:,:,3])(y_pred),axis=-1) 
+        ones = K.ones_like(y_pred[:,:,:,1])
+        mask = K.stack([ones]*self.channels, axis=-1)
         input_img = Lambda(lambda x : x[:,:,:,0:3])(y_true)
         output_img = Lambda(lambda x : x[:,:,:,0:3])(y_pred)
-        reversed_mask = Lambda(self.ReverseMask,output_shape=(self.img_shape_mask))(mask)
+        reversed_mask = Lambda(self.reverse_mask,output_shape=(self.img_shape_mask))(mask)
         vgg = VGG19(include_top=False, weights='imagenet', input_shape=self.img_shape)
         loss_model = Model(inputs=vgg.input, outputs=vgg.get_layer('block3_conv3').output)
         loss_model.trainable = False
         p_loss = K.mean(K.square(loss_model(output_img) - loss_model(input_img)))
         masking = Multiply()([reversed_mask,input_img])
-        predicting = Multiply()([reversed_img, output_img])
+        predicting = Multiply()([reversed_mask, output_img])
         reversed_mask_loss = (K.mean(K.square(loss_model(predicting) - loss_model(masking))))
-        new_loss = 0.6*(p_loss+com_loss) + 0.4*reversed_mask_loss
-        return new_loss       
+        new_loss = 0.6*(p_loss) + 0.4*reversed_mask_loss
+        return new_loss         
 
     # =================================================================================== #
     #               5. Define the reverese mask                                           #
@@ -305,12 +305,12 @@ class RMNETWGAN():
             sess = tf.Session(config=config)
             os.environ['CUDA_VISIBLE_DEVICES'] = "0" 
             sess.run(init)
-        if self.continue_train:
-            #Edit last_trained_epoch in config.ini
-            self.generator.load_weights(r'../{}/{}/weight_{}.h5'.format(self.models_path, self.dataset_name, self.last_trained_epoch))
-            print ( "Successfully loaded last check point" )
-        else:
-            print ( "Failed to get check point" )                
+#         if self.continue_train:
+#             #Edit last_trained_epoch in config.ini
+#             self.generator.load_weights(r'../{}/{}/weight_{}.h5'.format(self.models_path, self.dataset_name, self.last_trained_epoch))
+#             print ( "Successfully loaded last check point" )
+#         else:
+#             print ( "Failed to get check point" )                
         
         for epoch in range(self.num_epochs):
             
@@ -354,6 +354,8 @@ class RMNETWGAN():
     
               gc.collect()   
               if global_step % self.sample_interval == 0:  
+                input_img = np.expand_dims(real_img[0], 0)
+                input_mask = np.expand_dims(mask[0], 0)
                 if not os.path.exists("{}/{}/".format(self.models_path, self.dataset_name)):
                     os.makedirs("{}/{}/".format(self.models_path, self.dataset_name))
                 print("[Epoch %d/%d] [Global Steps: %d/%d] [WGAN Steps: %d ] [D loss: %f, acc: %3d%%] [G loss: %05f, adv: %05f] time: %s " \
@@ -365,6 +367,11 @@ class RMNETWGAN():
                 print("Seen so far: %s samples" % ((global_step + 1) * self.batch_size)) 
                 name = "{}/{}/weight_{}.h5".format(self.models_path, self.dataset_name, epoch+self.current_epoch)
                 self.generator.save_weights(name)
+                if not os.path.exists(self.dataset_name):
+                    os.makedirs(self.dataset_name,exist_ok=True)
+                predicted_img = self.generator.predict([input_img, input_mask])
+                self.sample_images(self.dataset_name, input_img, predicted_img[:,:,:,0:3],
+                                        input_mask, epoch)
               global_step += 1
 
     # =================================================================================== #
