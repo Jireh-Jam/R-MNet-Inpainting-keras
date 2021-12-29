@@ -13,6 +13,7 @@ https://arxiv.org/pdf/2008.04621.pdf
 
 ## Requirements
 ### Download Trained Model For Inference
+Download pre-trained model and create a director in the order "models/RMNet_WACV2021/" and save the pre-trained weight here before running the inpaint.py file. Note that we used quickdraw mask dataset and this can be altererd accordingly as per the script. All instructions are there.
 [Download CelebA-HQ](https://drive.google.com/drive/folders/1ZzswYSyCs4Z3pyR1feVJ6EfkBPhw9jf5?usp=sharing)
 ### Images dataset
 [Download Places2 Dataset]( http://data.csail.mit.edu/places/places365/places365standard_easyformat.tar) and [CelebA-HQ Dataset](https://github.com/willylulu/celeba-hq-modified)
