@@ -272,6 +272,8 @@ class RMNETWGAN():
             print("\rLoading image number "+ str(i) + " of " + str(len(self.imgs_in_path)), end = " ")
             real_img = cv2.imread(self.img_dir + self.imgs_in_path[imgs_index], 1).astype('float')/ 127.5 -1
             real_img = cv2.resize(real_img,(self.img_width, self.img_height))
+            #If masks bits are white, DO NOT subtract from 1.
+            #If masks bits are black, subtract from 1.
             mask = 1-cv2.imread(self.masks_dir + self.masks_in_path[masks_index[maskindx]],0).astype('float')/ 255
             mask = cv2.resize(mask,(self.img_width, self.img_height))
             mask = np.reshape(mask,(self.img_width, self.img_height,1))
