@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Jan 24 19:35:05 2021
-
 @author: Jireh Jam
 """
 
@@ -29,6 +28,7 @@ import os
 import datetime
 import time
 import gc
+import random
 
    
 class RMNETWGAN():
@@ -89,22 +89,6 @@ class RMNETWGAN():
     # =================================================================================== #
         self.generator = self.build_generator()
         
-        #Generator takes mask and image as input 
-        image = Input(shape=self.img_shape)
-        mask = Input(shape=self.img_shape_mask)
-        
-        #Generator predicts image
-        gen_img = self.generator([image,mask])
-         
-        #Train the generator only for the combined model
-        self.discriminator.trainable = False
-         
-        #Descriminator validates the predicted image
-        # It takes generated images as input and determines validity
-        gen_img = Lambda(lambda x : x[:,:,:,0:3])(gen_img)
-        # print("this is generated image in shape {} ".format(gen_image.shape))
-        valid = self.discriminator(gen_img)
-
     # =================================================================================== #
     #               3. The combined model (stacked generator and discriminator)           #
     #               Trains the generator to fool the discriminator                        #
@@ -112,30 +96,51 @@ class RMNETWGAN():
 
         try:
             self.multi_model = multi_gpu_model(self.combined, gpus=2)
-            self.multi_model.compile(loss=[self.loss, self.wasserstein_loss], loss_weights=[1.0, 1e-3], optimizer=self.g_optimizer)
+            self.multi_model.compile(loss=[self.generator_loss, self.wasserstein_loss], loss_weights=[1.0, 1e-3], optimizer=self.g_optimizer)
             
         except:        
-            self.combined = Model([image,mask], [gen_img,valid])
-            self.combined.compile(loss=[self.generator_loss, self.wasserstein_loss],loss_weights=[1,0.001], optimizer=self.g_optimizer)
+            self.combined = self.build_gan(self.generator, self.discriminator)
+            self.combined.compile(loss=[self.generator_loss, self.wasserstein_loss],loss_weights=[1, 1e-3], optimizer=self.g_optimizer)
 
+    def build_gan(self, generator, discriminator):
+        #Generator takes mask and image as input 
+        image = Input(shape=self.img_shape)
+        mask = Input(shape=self.img_shape_mask)
         
+        #Generator predicts image
+        gen_output = generator([image, mask])
+         
+        #Train the generator only for the combined model
+        discriminator.trainable = False
+         
+        #Descriminator validates the predicted image
+        # It takes generated images as input and determines validity
+        gen_img = Lambda(lambda x : x[:,:,:,0:3])(gen_output)
+        # print("this is generated image in shape {} ".format(gen_image.shape))
+        score = discriminator(gen_img)
+
+
+        model = Model([image, mask], [gen_output, score])
+        return model
     # =================================================================================== #
     #               4. Define the discriminator and generator losses                      #
     # =================================================================================== # 
         
     def wasserstein_loss(self, y_true, y_pred):
-        return K.mean(y_true * y_pred)  
+        return -K.mean(y_true * y_pred)  
       
-    def generator_loss(self, y_true,y_pred):
-        ones = K.ones_like(y_pred[:,:,:,1])
-        mask = K.stack([ones]*self.channels, axis=-1)
+    def generator_loss(self, y_true, y_pred):
+        mask = Lambda(lambda x : x[:,:,:,3:])(y_true)
+        reversed_mask = Lambda(self.reverse_mask, output_shape=(self.img_shape_mask))(mask)
+        
         input_img = Lambda(lambda x : x[:,:,:,0:3])(y_true)
         output_img = Lambda(lambda x : x[:,:,:,0:3])(y_pred)
-        reversed_mask = Lambda(self.reverse_mask,output_shape=(self.img_shape_mask))(mask)
+        
         vgg = VGG19(include_top=False, weights='imagenet', input_shape=self.img_shape)
         loss_model = Model(inputs=vgg.input, outputs=vgg.get_layer('block3_conv3').output)
         loss_model.trainable = False
         p_loss = K.mean(K.square(loss_model(output_img) - loss_model(input_img)))
+        
         masking = Multiply()([reversed_mask,input_img])
         predicting = Multiply()([reversed_mask, output_img])
         reversed_mask_loss = (K.mean(K.square(loss_model(predicting) - loss_model(masking))))
@@ -296,7 +301,7 @@ class RMNETWGAN():
     def train(self):
         # Ground truths for adversarial loss
         valid = np.ones([self.batch_size, 1])
-        fake = np.zeros((self.batch_size, 1))
+        fake = -np.ones((self.batch_size, 1))
         total_files= 27000
         batch_imgs = 1000
         imgs_index =0
@@ -318,6 +323,7 @@ class RMNETWGAN():
                     # =================================================================================== #
                     #                             8.2. Train the discriminator                            #
                     # =================================================================================== # 
+                    self.discriminator.trainable = True
                     d_loss_real = self.discriminator.train_on_batch(imgs[idx_batches], valid)
                     d_loss_fake = self.discriminator.train_on_batch(gen_imgs[:,:,:,0:3], fake)
                     d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
@@ -328,7 +334,9 @@ class RMNETWGAN():
                     # =================================================================================== #
 
                     # Train the generator
-                    g_loss = self.combined.train_on_batch([imgs[idx_batches] ,masks[idx_batches]], [imgs[idx_batches],valid])
+                    self.discriminator.trainable = False
+                    g_loss = self.combined.train_on_batch([imgs[idx_batches], masks[idx_batches]], 
+                                                          [K.stack([imgs[idx_batches], masks[idx_batches]], axis=-1),valid])
 
                     # =================================================================================== #
                     #                             8.4. Plot the progress                                  #
